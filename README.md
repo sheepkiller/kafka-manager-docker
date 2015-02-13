@@ -14,3 +14,6 @@ you can also override conf with local configuration files:
 ```
 docker run [...] -v /path/to/confdir:/kafka-manager-1.0-SNAPSHOT/conf [...]
 ```
+
+## Specify a revision
+If you want to upgrade/downgrade this Dockerfile, edit it and set `KV_REVISION` to desired one (from rev `c9a9093b72fd296d1634854fe8150dcc4b861882`)
