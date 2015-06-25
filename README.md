@@ -12,7 +12,7 @@ docker run -it --rm  -p 9000:9000 -e ZK_HOSTS="your-zk.domain:2181" -e APPLICATI
 
 you can also override conf with local configuration files:
 ```
-docker run [...] -v /path/to/confdir:/kafka-manager-1.2.4/conf [...]
+docker run [...] -v /path/to/confdir:/kafka-manager-1.2.5/conf [...]
 ```
 
 ## Specify a revision
