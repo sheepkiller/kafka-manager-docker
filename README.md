@@ -16,4 +16,4 @@ docker run [...] -v /path/to/confdir:/kafka-manager-1.2.7/conf [...]
 ```
 
 ## Specify a revision
-If you want to upgrade/downgrade this Dockerfile, edit it and set `KM_VERSION` to desired git tag.
+If you want to upgrade/downgrade this Dockerfile, edit it and set `KM_VERSION` to fetch the release from github.
