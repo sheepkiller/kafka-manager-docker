@@ -3,8 +3,8 @@ FROM hseeberger/scala-sbt
 MAINTAINER Clement Laforet <sheepkiller@cultdeadsheep.org>
 
 ENV ZK_HOSTS=localhost:2181 \
-     KM_VERSION=1.2.9.8 \
-     KM_REVISION=0f5b85ef26ade06314b96d5c933e1122d36b0cb8
+     KM_VERSION=1.2.9.9 \
+     KM_REVISION=bf56d01d89cb72408399f560fea97a7e3c94616f
 
 RUN mkdir -p /tmp && \
     cd /tmp && \
