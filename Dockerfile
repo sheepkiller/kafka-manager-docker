@@ -3,16 +3,17 @@ FROM hseeberger/scala-sbt
 MAINTAINER Clement Laforet <sheepkiller@cultdeadsheep.org>
 
 ENV ZK_HOSTS=localhost:2181 \
-     KM_VERSION=1.2.7
+     KM_VERSION=1.2.8 \
+     KM_REVISION=acacac283129080940ca3a02f7160318c7a01421
 
 RUN mkdir -p /tmp && \
     cd /tmp && \
-    wget https://github.com/yahoo/kafka-manager/archive/${KM_VERSION}.tar.gz && \
-    tar xxf ${KM_VERSION}.tar.gz && \
-    cd /tmp/kafka-manager-${KM_VERSION} && \
+    git clone https://github.com/yahoo/kafka-manager && \
+    cd /tmp/kafka-manager && \
+    git checkout ${KM_REVISION} && \
     sbt clean dist && \
     unzip  -d / ./target/universal/kafka-manager-${KM_VERSION}.zip && \
-    rm -fr /tmp/${KM_VERSION} /tmp/kafka-manager-${KM_VERSION}
+    rm -fr /tmp/*
 
 WORKDIR /kafka-manager-${KM_VERSION}
 
