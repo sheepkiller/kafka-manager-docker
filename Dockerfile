@@ -3,7 +3,7 @@ FROM centos:7
 MAINTAINER Clement Laforet <sheepkiller@cultdeadsheep.org>
 
 RUN yum update -y && \
-    yum install -y git wget
+    yum install -y git wget unzip
 ENV JAVA_MAJOR=8 \
     JAVA_UPDATE=65 \
     JAVA_BUILD=17 
