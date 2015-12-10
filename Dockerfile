@@ -26,7 +26,7 @@ RUN mkdir -p /tmp && \
     git checkout ${KM_REVISION} && \
     ./sbt clean dist && \
     unzip  -d / ./target/universal/kafka-manager-${KM_VERSION}.zip && \
-    rm -fr /tmp/*
+    rm -fr /tmp/* /root/.sbt /root/.ivy2
 
 WORKDIR /kafka-manager-${KM_VERSION}
 
