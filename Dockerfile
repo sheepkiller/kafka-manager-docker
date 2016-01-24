@@ -3,7 +3,7 @@ FROM centos:7
 MAINTAINER Clement Laforet <sheepkiller@cultdeadsheep.org>
 
 RUN yum update -y && \
-    yum install -y git wget unzip && \
+    yum install -y git wget unzip which && \
     yum clean all
 
 ENV JAVA_MAJOR=8 \
@@ -18,14 +18,15 @@ RUN wget --no-cookies --no-check-certificate \
 
 ENV JAVA_HOME=/usr/java/jdk1.8.0_${JAVA_UPDATE} \
     ZK_HOSTS=localhost:2181 \
-    KM_VERSION=1.2.9.12 \
-    KM_REVISION=ebb6be4c6bdb3aafa289ac2bdfff21157705ca08
+    KM_VERSION=1.3.0.4 \
+    KM_REVISION=1b45af100ee302dfe53f31a9c7a041999fe3d83a
 
 RUN mkdir -p /tmp && \
     cd /tmp && \
     git clone https://github.com/yahoo/kafka-manager && \
     cd /tmp/kafka-manager && \
     git checkout ${KM_REVISION} && \
+    echo 'scalacOptions ++= Seq("-Xmax-classfile-name", "200")' >> build.sbt && \
     ./sbt clean dist && \
     unzip  -d / ./target/universal/kafka-manager-${KM_VERSION}.zip && \
     rm -fr /tmp/* /root/.sbt /root/.ivy2
