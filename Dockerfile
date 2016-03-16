@@ -3,12 +3,12 @@ FROM centos:7
 MAINTAINER Clement Laforet <sheepkiller@cultdeadsheep.org>
 
 RUN yum update -y && \
-    yum install -y git wget unzip which && \
+    yum install -y git which && \
     yum clean all
 
 ENV JAVA_MAJOR=8 \
-    JAVA_UPDATE=65 \
-    JAVA_BUILD=17 
+    JAVA_UPDATE=73 \
+    JAVA_BUILD=02 
 
 RUN wget --no-cookies --no-check-certificate \
     --header "Cookie: oraclelicense=accept-securebackup-cookie" \
@@ -19,7 +19,8 @@ RUN wget --no-cookies --no-check-certificate \
 ENV JAVA_HOME=/usr/java/jdk1.8.0_${JAVA_UPDATE} \
     ZK_HOSTS=localhost:2181 \
     KM_VERSION=1.3.0.4 \
-    KM_REVISION=1b45af100ee302dfe53f31a9c7a041999fe3d83a
+    KM_REVISION=1b45af100ee302dfe53f31a9c7a041999fe3d83a \
+    KM_OPTIONS="-Dconfig.file=conf/application.conf"
 
 RUN mkdir -p /tmp && \
     cd /tmp && \
@@ -29,9 +30,11 @@ RUN mkdir -p /tmp && \
     echo 'scalacOptions ++= Seq("-Xmax-classfile-name", "200")' >> build.sbt && \
     ./sbt clean dist && \
     unzip  -d / ./target/universal/kafka-manager-${KM_VERSION}.zip && \
-    rm -fr /tmp/* /root/.sbt /root/.ivy2
+    rm -fr /tmp/* /root/.sbt /root/.ivy2 && \
+    printf '#!/bin/sh\nexec ./bin/kafka-manager "${KM_OPTIONS}" "${@}"\n' > /kafka-manager-${KM_VERSION}/km.sh && \
+    chmod +x /kafka-manager-${KM_VERSION}/km.sh
 
 WORKDIR /kafka-manager-${KM_VERSION}
 
 EXPOSE 9000
-ENTRYPOINT ["./bin/kafka-manager","-Dconfig.file=conf/application.conf"]
+ENTRYPOINT ["./km.sh"]
