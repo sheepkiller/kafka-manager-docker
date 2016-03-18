@@ -19,8 +19,8 @@ RUN wget --no-cookies --no-check-certificate \
 ENV JAVA_HOME=/usr/java/jdk1.8.0_${JAVA_UPDATE} \
     ZK_HOSTS=localhost:2181 \
     KM_VERSION=1.3.0.4 \
-    KM_REVISION=1b45af100ee302dfe53f31a9c7a041999fe3d83a \
-    KM_OPTIONS="-Dconfig.file=conf/application.conf"
+    KM_REVISION=master \
+    KM_CONFIGFILE="conf/application.conf"
 
 RUN mkdir -p /tmp && \
     cd /tmp && \
@@ -31,7 +31,7 @@ RUN mkdir -p /tmp && \
     ./sbt clean dist && \
     unzip  -d / ./target/universal/kafka-manager-${KM_VERSION}.zip && \
     rm -fr /tmp/* /root/.sbt /root/.ivy2 && \
-    printf '#!/bin/sh\nexec ./bin/kafka-manager "${KM_OPTIONS}" "${@}"\n' > /kafka-manager-${KM_VERSION}/km.sh && \
+    printf '#!/bin/sh\nexec ./bin/kafka-manager -Dconfig.file=${KM_CONFIGFILE} "${KM_ARGS}" "${@}"\n' > /kafka-manager-${KM_VERSION}/km.sh && \
     chmod +x /kafka-manager-${KM_VERSION}/km.sh
 
 WORKDIR /kafka-manager-${KM_VERSION}
