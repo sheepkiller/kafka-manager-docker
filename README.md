@@ -34,3 +34,6 @@ docker run -it --rm  -p 9000:9000 -e ZK_HOSTS="your-zk.domain:2181" -e APPLICATI
 ### Specify a revision
 If you want to upgrade/downgrade this Dockerfile, edit it and set `KM_VERSION` and `KM_REVISION` to fetch the release from github.
 
+
+## ToDo
+- don't run kafka-manager as root
