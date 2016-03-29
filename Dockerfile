@@ -1,28 +1,20 @@
-FROM centos:7
+FROM anapsix/alpine-java:jdk8
+# inpired by: https://github.com/prabhuinbarajan/kafka-manager-docker/
 
 MAINTAINER Clement Laforet <sheepkiller@cultdeadsheep.org>
 
-RUN yum update -y && \
-    yum install -y git wget unzip which && \
-    yum clean all
-
 ENV JAVA_MAJOR=8 \
-    JAVA_UPDATE=73 \
-    JAVA_BUILD=02 
+    JAVA_UPDATE=77 \
+    JAVA_BUILD=03
 
-RUN wget -nv --no-cookies --no-check-certificate \
-    --header "Cookie: oraclelicense=accept-securebackup-cookie" \
-    "http://download.oracle.com/otn-pub/java/jdk/${JAVA_MAJOR}u${JAVA_UPDATE}-b${JAVA_BUILD}/jdk-${JAVA_MAJOR}u${JAVA_UPDATE}-linux-x64.rpm" -O /tmp/jdk-${JAVA_MAJOR}u${JAVA_UPDATE}-linux-x64.rpm && \
-     yum localinstall -y /tmp/jdk-${JAVA_MAJOR}u${JAVA_UPDATE}-linux-x64.rpm && \
-     rm -f /tmp/jdk-${JAVA_MAJOR}u${JAVA_UPDATE}-linux-x64.rpm
-
-ENV JAVA_HOME=/usr/java/jdk1.8.0_${JAVA_UPDATE} \
+ENV JAVA_HOME=/opt/jdk1.${JAVA_MAJOR}.0_${JAVA_UPDATE} \
     ZK_HOSTS=localhost:2181 \
     KM_VERSION=1.3.0.7 \
     KM_REVISION=4b57fc9b65e6f9ac88fff4391994fd06bb782663 \
     KM_CONFIGFILE="conf/application.conf"
 
-RUN mkdir -p /tmp && \
+RUN apk add --no-cache git && \
+    mkdir -p /tmp && \
     cd /tmp && \
     git clone https://github.com/yahoo/kafka-manager && \
     cd /tmp/kafka-manager && \
@@ -32,7 +24,9 @@ RUN mkdir -p /tmp && \
     unzip  -d / ./target/universal/kafka-manager-${KM_VERSION}.zip && \
     rm -fr /tmp/* /root/.sbt /root/.ivy2 && \
     printf '#!/bin/sh\nexec ./bin/kafka-manager -Dconfig.file=${KM_CONFIGFILE} "${KM_ARGS}" "${@}"\n' > /kafka-manager-${KM_VERSION}/km.sh && \
-    chmod +x /kafka-manager-${KM_VERSION}/km.sh
+    chmod +x /kafka-manager-${KM_VERSION}/km.sh && \
+    rm -fr /kafka-manager-${KM_VERSION}/share \
+    apk del git
 
 WORKDIR /kafka-manager-${KM_VERSION}
 
