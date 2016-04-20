@@ -7,8 +7,8 @@ RUN yum update -y && \
     yum clean all
 
 ENV JAVA_MAJOR=8 \
-    JAVA_UPDATE=73 \
-    JAVA_BUILD=02 
+    JAVA_UPDATE=92 \
+    JAVA_BUILD=14 
 
 RUN wget -nv --no-cookies --no-check-certificate \
     --header "Cookie: oraclelicense=accept-securebackup-cookie" \
@@ -18,8 +18,8 @@ RUN wget -nv --no-cookies --no-check-certificate \
 
 ENV JAVA_HOME=/usr/java/jdk1.8.0_${JAVA_UPDATE} \
     ZK_HOSTS=localhost:2181 \
-    KM_VERSION=1.3.0.7 \
-    KM_REVISION=4b57fc9b65e6f9ac88fff4391994fd06bb782663 \
+    KM_VERSION=1.3.0.8 \
+    KM_REVISION=6e196ea7a332471bead747535f9676f0a2bad008 \
     KM_CONFIGFILE="conf/application.conf"
 
 RUN mkdir -p /tmp && \
