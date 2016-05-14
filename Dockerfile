@@ -7,8 +7,8 @@ RUN yum update -y && \
     yum clean all
 
 ENV JAVA_MAJOR=8 \
-    JAVA_UPDATE=73 \
-    JAVA_BUILD=02 
+    JAVA_UPDATE=92 \
+    JAVA_BUILD=14
 
 RUN wget -nv --no-cookies --no-check-certificate \
     --header "Cookie: oraclelicense=accept-securebackup-cookie" \
