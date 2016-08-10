@@ -13,7 +13,7 @@ ENV JAVA_HOME=/opt/jdk1.${JAVA_MAJOR}.0_${JAVA_UPDATE} \
     KM_REVISION=6cf43e383377a6b37df4faa04d9aff515a265b30 \
     KM_CONFIGFILE="conf/application.conf"
 
-RUN apk add --no-cache git && \
+RUN apk add --no-cache git wget && \
     mkdir -p /tmp && \
     cd /tmp && \
     git clone https://github.com/yahoo/kafka-manager && \
