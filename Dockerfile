@@ -34,7 +34,9 @@ RUN mkdir -p /tmp && \
     printf '#!/bin/sh\nexec ./bin/kafka-manager -Dconfig.file=${KM_CONFIGFILE} "${KM_ARGS}" "${@}"\n' > /kafka-manager-${KM_VERSION}/km.sh && \
     chmod +x /kafka-manager-${KM_VERSION}/km.sh
 
+ADD start-kafka-manager.sh /kafka-manager-${KM_VERSION}/start-kafka-manager.sh
+
 WORKDIR /kafka-manager-${KM_VERSION}
 
 EXPOSE 9000
-ENTRYPOINT ["./km.sh"]
+ENTRYPOINT ["./start-kafka-manager.sh"]
