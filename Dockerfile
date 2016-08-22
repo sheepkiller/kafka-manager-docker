@@ -22,6 +22,8 @@ ENV JAVA_HOME=/usr/java/jdk1.8.0_${JAVA_UPDATE} \
     KM_REVISION=6cf43e383377a6b37df4faa04d9aff515a265b30 \
     KM_CONFIGFILE="conf/application.conf"
 
+ADD start-kafka-manager.sh /kafka-manager-${KM_VERSION}/start-kafka-manager.sh
+
 RUN mkdir -p /tmp && \
     cd /tmp && \
     git clone https://github.com/yahoo/kafka-manager && \
@@ -30,9 +32,8 @@ RUN mkdir -p /tmp && \
     echo 'scalacOptions ++= Seq("-Xmax-classfile-name", "200")' >> build.sbt && \
     ./sbt clean dist && \
     unzip  -d / ./target/universal/kafka-manager-${KM_VERSION}.zip && \
-    rm -fr /tmp/* /root/.sbt /root/.ivy2
-
-ADD start-kafka-manager.sh /kafka-manager-${KM_VERSION}/start-kafka-manager.sh
+    rm -fr /tmp/* /root/.sbt /root/.ivy2 && \
+    chmod +x /kafka-manager-${KM_VERSION}/start-kafka-manager.sh
 
 WORKDIR /kafka-manager-${KM_VERSION}
 
