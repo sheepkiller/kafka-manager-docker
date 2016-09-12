@@ -22,6 +22,8 @@ ENV JAVA_HOME=/usr/java/jdk1.8.0_${JAVA_UPDATE} \
     KM_REVISION=6cf43e383377a6b37df4faa04d9aff515a265b30 \
     KM_CONFIGFILE="conf/application.conf"
 
+ADD start-kafka-manager.sh /kafka-manager-${KM_VERSION}/start-kafka-manager.sh
+
 RUN mkdir -p /tmp && \
     cd /tmp && \
     git clone https://github.com/yahoo/kafka-manager && \
@@ -31,10 +33,9 @@ RUN mkdir -p /tmp && \
     ./sbt clean dist && \
     unzip  -d / ./target/universal/kafka-manager-${KM_VERSION}.zip && \
     rm -fr /tmp/* /root/.sbt /root/.ivy2 && \
-    printf '#!/bin/sh\nexec ./bin/kafka-manager -Dconfig.file=${KM_CONFIGFILE} "${KM_ARGS}" "${@}"\n' > /kafka-manager-${KM_VERSION}/km.sh && \
-    chmod +x /kafka-manager-${KM_VERSION}/km.sh
+    chmod +x /kafka-manager-${KM_VERSION}/start-kafka-manager.sh
 
 WORKDIR /kafka-manager-${KM_VERSION}
 
 EXPOSE 9000
-ENTRYPOINT ["./km.sh"]
+ENTRYPOINT ["./start-kafka-manager.sh"]
