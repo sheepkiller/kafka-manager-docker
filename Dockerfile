@@ -31,4 +31,5 @@ RUN yum install -y java-1.8.0-openjdk-devel git wget unzip which && \
 WORKDIR /kafka-manager-${KM_VERSION}
 
 EXPOSE 9000
+USER nobody
 ENTRYPOINT ["./start-kafka-manager.sh"]
