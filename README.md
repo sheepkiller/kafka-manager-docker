@@ -4,7 +4,7 @@
 * [centos:7](https://hub.docker.com/_/centos/)
 
 ## RoadMap
-- 1.3.1.6 + 1 : defaulting to openjdk
+- ~~1.3.1.6 + 1 : defaulting to openjdk~~
 - 1.3.1.6 + 2 : switch to non root user
 - 1.3.1.6 + 3 : switch to alpine linux
 
